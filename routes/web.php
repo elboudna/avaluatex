@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\EvenementController;
+use App\Http\Controllers\ImageEvenementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,3 +43,6 @@ Route::get('/game', function () {
 
 // route pour evenement 
 Route::post('/evenement', [EvenementController::class, 'store'])->name('evenement.store');
+
+// route pour imageEvenement
+Route::post('/imageEvenement', [ImageEvenementController::class, 'store'])->name('imageEvenement.store');
