@@ -1,0 +1,99 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Apply basic styles to the table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* Apply styles to table header cells */
+th {
+    background-color: #f2f2f2;
+    color: #333;
+    font-weight: bold;
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+/* Apply styles to table data cells */
+td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+/* Apply alternate background color to table rows */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+
+#score-chrono{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#score{
+    display: flex;
+}
+
+#score button{
+    padding: 10px;
+    margin: 10px;
+    font-size: 1.5em;
+    border: none;
+    cursor: pointer;
+}
+
+#btn-rec{
+    background-color: #4CAF50;
+    color: white;
+}
+
+#btn-vis{
+    background-color: #0026ff;
+    color: white;
+}
+
+#score-chrono h2{
+    margin: 0;
+    padding: 0;
+    font-size: 2em;
+    color: #333;
+}
+
+#event-map{
+    display: flex;
+    gap: 5%;
+}
+
+#events{
+    width: 65%;
+}
+
+#map{
+    width: 30%;
+}
+
+
+#icons-container img{
+    width: 25px;
+}
+
+#icon-change{
+    text-align: center;
+}
+
+#icon-change img{
+    width: 25px;
+    cursor: pointer;
+}
