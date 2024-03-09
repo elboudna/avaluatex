@@ -30,6 +30,8 @@ Route::get('/games', [GameController::class, 'index'])->name('game.index');
 Route::post('/game', [GameController::class, 'store'])->name('game.store');
 Route::post('/game/commencer', [GameController::class, 'commencer'])->name('game.commencer');
 Route::post('/game/mitemps', [GameController::class, 'mitemps'])->name('game.mitemps');
+Route::post('/game/pause', [GameController::class, 'pause'])->name('game.pause');
+Route::post('/game/fin', [GameController::class, 'fin'])->name('game.fin');
 Route::get('/game/go', [GameController::class, 'go'])->name('game.go');
 
 //but receveur et but visiteur
