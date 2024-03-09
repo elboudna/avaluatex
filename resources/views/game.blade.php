@@ -33,7 +33,7 @@
         <!-- using game->receveur.. -->
         <div id="score">
             <!-- form for button to add goal to db -->
-            <form action="{{ route('game.but_receveur')}}" method="POST">
+            <form id="score-rec" action="{{ route('game.but_receveur')}}" method="POST">
                 @csrf
                 <input type="hidden" name="id" value="{{ $game->id }}">
                 <button style="background-color: {{$game->couleur_receveur}};" type="submit">But receveur</button>
@@ -41,7 +41,7 @@
 
             <h1>{{ $game->receveur }} {{ $game->but_receveur}} - {{ $game->but_visiteur}} {{ $game->visiteur }}</h2>
 
-                <form action="{{ route('game.but_visiteur')}}" method="POST">
+                <form id="score-vis" action="{{ route('game.but_visiteur')}}" method="POST">
                     @csrf
                     <input type="hidden" name="id" value="{{ $game->id }}">
                     <button style="background-color: {{$game->couleur_visiteur}};" type="submit">But visiteur</button>

@@ -8,6 +8,9 @@ window.onload = function () {
     var btnFin = document.getElementById('btn-fin');
     var timeline = document.getElementById('timeline').innerText;
 
+    var scoreRec = document.getElementById('score-rec');
+    var scoreVis = document.getElementById('score-vis');
+
 
     // avant match
     if (timeline === 'ini') {
@@ -15,6 +18,8 @@ window.onload = function () {
         btnPM.style.display = 'block';
         btnSM.style.display = 'none';
         btnFin.style.display = 'none';
+        scoreRec.style.display = 'none';
+        scoreVis.style.display = 'none';
     }
 
     //  1ere periode
@@ -23,6 +28,8 @@ window.onload = function () {
         btnSM.style.display = 'none';
         btnPause.style.display = 'block';
         btnFin.style.display = 'none';
+        scoreRec.style.display = 'block';
+        scoreVis.style.display = 'block';
     }
 
     //2eme periode
@@ -31,6 +38,8 @@ window.onload = function () {
         btnPM.style.display = 'none';
         btnPause.style.display = 'none';
         btnFin.style.display = 'block';
+        scoreRec.style.display = 'block';
+        scoreVis.style.display = 'block';
     }
 
     //mitemps
@@ -39,6 +48,8 @@ window.onload = function () {
         btnPM.style.display = 'none';
         btnSM.style.display = 'block';
         btnFin.style.display = 'none';
+        scoreRec.style.display = 'none';
+        scoreVis.style.display = 'none';
     }
 
     //fin match
@@ -47,6 +58,8 @@ window.onload = function () {
         btnPM.style.display = 'none';
         btnSM.style.display = 'none';
         btnFin.style.display = 'none';
+        scoreRec.style.display = 'none';
+        scoreVis.style.display = 'none';
     }
 
     if (debut_chrono !== '') {
