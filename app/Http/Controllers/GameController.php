@@ -25,6 +25,8 @@ class GameController extends Controller
         $validatedData = $request->validate([
             'receveur' => 'required|string',
             'visiteur' => 'required|string',
+            'couleur_receveur' => 'required|string',
+            'couleur_visiteur' => 'required|string',
             'duree' => 'required|numeric|min:25|max:45',
             'AC' => 'required|string',
             'AA1' => 'nullable|string',
