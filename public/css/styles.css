@@ -105,3 +105,8 @@ tr:nth-child(even) {
     gap: 10px;
     margin: 10px 0;
 }
+
+.newIcon{
+    cursor: pointer;
+}
+
