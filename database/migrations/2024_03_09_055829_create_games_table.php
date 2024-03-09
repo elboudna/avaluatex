@@ -18,9 +18,11 @@ return new class extends Migration
             $table->string('receveur');
             $table->integer('but_receveur')->default(0);
             $table->integer('but_receveur_mi_temps')->default(0);
+            $table->string('couleur_receveur')->nullable();
             $table->string('visiteur');
             $table->integer('but_visiteur')->default(0);
             $table->integer('but_visiteur_mi_temps')->default(0);
+            $table->string('couleur_visiteur')->nullable();
             $table->string('duree');
             $table->string('AC');
             $table->string('AA1')->nullable();
