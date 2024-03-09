@@ -32,13 +32,15 @@
 
     <div id="score-chrono">
         <p id="debut_chrono" style="display: none;">{{ $game->debut_chrono }}</p>
+        <p id="mitemps_chrono" style="display: none;">{{ $game->mitemps_chrono }}</p>
+
         <!-- using game->receveur.. -->
         <div id="score">
             <!-- form for button to add goal to db -->
             <form action="{{ route('game.but_receveur')}}" method="POST">
                 @csrf
                 <input type="hidden" name="id" value="{{ $game->id }}">
-                <button id="btn-rec" type="submit">But receveur</button>
+                <button style="background-color: {{$game->couleur_receveur}};" type="submit">But receveur</button>
             </form>
 
             <h1>{{ $game->receveur }} {{ $game->but_receveur}} - {{ $game->but_visiteur}} {{ $game->visiteur }}</h2>
@@ -46,27 +48,31 @@
                 <form action="{{ route('game.but_visiteur')}}" method="POST">
                     @csrf
                     <input type="hidden" name="id" value="{{ $game->id }}">
-                    <button id="btn-vis" type="submit">But visiteur</button>
+                    <button style="background-color: {{$game->couleur_visiteur}};" type="submit">But visiteur</button>
                 </form>
         </div>
         <h2 id="chrono">00:00</h2>
     </div>
 
-    <form action="{{ route('game.commencer')}}" method="POST">
-        @csrf
-        <input type="hidden" name="id" value="{{ $game->id }}">
-        <button type="submit">Commencer</button>
-    </form>
 
-    <!-- form pour commencer deuxieme mi-temps -->
-    <form action="{{ route('game.mitemps')}}" method="POST">
-        @csrf
-        <input type="hidden" name="id" value="{{ $game->id }}">
-        <input type="hidden" name="duree" value="{{ $game->duree }}">
-        <button type="submit">Mi-temps</button>
-    </form>
+    <div id="flex-btn">
+        <button id="add-event">Ajouter evenement</button>
 
-    <button id="add-event">Ajouter evenement</button>
+        <form action="{{ route('game.commencer')}}" method="POST">
+            @csrf
+            <input type="hidden" name="id" value="{{ $game->id }}">
+            <button type="submit">Coup d'envoi</button>
+        </form>
+        
+        <!-- form pour commencer deuxieme mi-temps -->
+        <form action="{{ route('game.mitemps')}}" method="POST">
+            @csrf
+            <input type="hidden" name="id" value="{{ $game->id }}">
+            <input type="hidden" id="duree_mitemps" name="duree" value="{{ $game->duree }}">
+            <button type="submit">Mi-temps</button>
+        </form>
+        
+    </div>
 
     <section id="event-map">
 
@@ -136,6 +142,7 @@
                     <th>Sanction</th>
                     <th>Commentaire</th>
                     <th>icone</th>
+                    <th>Add</th>
                 </tr>
                 @foreach($evenements as $evenement)
                 <tr>
@@ -148,20 +155,35 @@
                     <td>{{ $evenement->sanction }}</td>
                     <td>{{ $evenement->commentaires }}</td>
                     <td id="icon-change">
-                        @if($evenement->evenement == 'hors_jeu')
-                        <img src="{{ asset('icone/hj.png') }}" alt="Hors jeu">
-                        @elseif($evenement->evenement == 'positionnement')
-                        <img src="{{ asset('icone/p.png') }}" alt="Positionnement">
-                        @elseif(in_array($evenement->evenement, ['faute', 'penalty']) && empty($evenement->sanction))
-                        <img src="{{ asset('icone/f.png') }}" alt="Faute ou penalty">
-                        @elseif($evenement->sanction == 'jaune')
-                        <img src="{{ asset('icone/cj.png') }}" alt="Carton jaune">
-                        @elseif($evenement->sanction == 'rouge')
-                        <img src="{{ asset('icone/cr.png') }}" alt="Carton rouge">
+                        <!-- first check if $evenemenent->icone = 1 or 0, if its 0 put N/A if 1 put the icon src -->
+                        @if($evenement->icone == 1)
+                            @if($evenement->evenement == 'hors_jeu')
+                            <img src="{{ asset('icone/hj.png') }}" alt="Hors jeu">
+                            @elseif($evenement->evenement == 'positionnement')
+                            <img src="{{ asset('icone/p.png') }}" alt="Positionnement">
+                            @elseif(in_array($evenement->evenement, ['faute', 'penalty']) && empty($evenement->sanction))
+                            <img src="{{ asset('icone/f.png') }}" alt="Faute ou penalty">
+                            @elseif($evenement->sanction == 'jaune')
+                            <img src="{{ asset('icone/cj.png') }}" alt="Carton jaune">
+                            @elseif($evenement->sanction == 'rouge')
+                            <img src="{{ asset('icone/cr.png') }}" alt="Carton rouge">
+                            @else
+                            <!-- Default icon or placeholder -->
+                            <img src="{{ asset('icons/default.png') }}" alt="Default">
+                            @endif
                         @else
-                        <!-- Default icon or placeholder -->
-                        <img src="{{ asset('icons/default.png') }}" alt="Default">
+                        N/A
                         @endif
+                    </td>
+                    <td>
+                        <!-- form to add the icon to imgaEvenement database -->
+                        <form action="{{ route('imageEvenement.store')}}" method="POST">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $evenement->id }}">
+                            <input type="hidden" name="game_id" value="{{ $game->id }}">
+                            <button type="submit">Ajouter icone</button>
+                        </form>
+                        
                     </td>
                 </tr>
                 @endforeach
@@ -180,104 +202,11 @@
                 </div>
             </div>
         </div>
-        <button id="save-icons">Save Icons</button>
+        
 
     </section>
 </body>
 
-<script>
-    window.onload = function() {
-        var chrono = document.getElementById('chrono');
-        var debut_chrono = document.getElementById('debut_chrono').innerText;
-        // reduce 6 hours from debut_chrono to get the right time
-        debut_chrono = new Date(debut_chrono);
-        debut_chrono.setHours(debut_chrono.getHours());
-
-        // Create a new Date object representing the current date and time
-        var now = new Date();
-
-        // Calculate the difference in seconds between the two dates
-        var difference = now.getTime() - debut_chrono.getTime();
-
-        // using the difference in seconds, calculate the number of minutes and seconds
-        var minutes = Math.floor(difference / 60000);
-        var seconds = ((difference % 60000) / 1000).toFixed(0);
-
-        // Display the result
-        chrono.innerHTML = minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-
-        // Update the display every 1 second
-        setInterval(function() {
-            // Create a new Date object representing the current date and time
-            var now = new Date();
-
-            // Calculate the difference in seconds between the two dates
-            var difference = now.getTime() - debut_chrono.getTime();
-
-            // using the difference in seconds, calculate the number of minutes and seconds
-            var minutes = Math.floor(difference / 60000);
-            var seconds = ((difference % 60000) / 1000).toFixed(0);
-
-            // Display the result
-            chrono.innerHTML = minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-        }, 1000);
-
-        // get the minute in the chrono display, add 1 to it and store it in the hidden input
-        var minute = document.getElementById('minute');
-        setInterval(function() {
-            var chrono = document.getElementById('chrono').innerText;
-            var minute = chrono.split(':')[0];
-            minute = parseInt(minute) + 1;
-            document.getElementById('minute').value = minute;
-        }, 1000);
-
-
-        var addEvent = document.getElementById('add-event');
-        addEvent.addEventListener('click', function() {
-            var formEvent = document.getElementById('form-event');
-            formEvent.style.display = 'block';
-        });
-
-
-
-
-        var pitch = document.getElementById('pitch');
-        var iconsContainer = document.getElementById('icons-container');
-
-        // Event listener for clicking on the pitch to add icons
-        pitch.addEventListener('click', function(event) {
-            // Get mouse coordinates relative to the pitch
-            var rect = pitch.getBoundingClientRect();
-            var mouseX = event.clientX;
-            var mouseY = event.clientY;
-
-            // Create new icon element
-            var icon = document.getElementById('cj');
-            var newIcon = icon.cloneNode(true);
-            newIcon.style.position = 'absolute';
-            newIcon.style.left = mouseX + 'px';
-            newIcon.style.top = mouseY + 'px';
-
-            // Append icon to icons container
-            iconsContainer.appendChild(newIcon);
-        });
-
-        // Event listener for saving icons (to be implemented)
-        document.getElementById('save-icons').addEventListener('click', function() {
-            // Get all icon positions
-            var icons = document.querySelectorAll('.icon');
-            var iconPositions = [];
-            icons.forEach(function(icon) {
-                iconPositions.push({
-                    x: parseInt(icon.style.left),
-                    y: parseInt(icon.style.top)
-                });
-            });
-
-            // Send icon positions to the server for saving (to be implemented)
-            console.log(iconPositions);
-        });
-    };
-</script>
+<script src = "{{ asset('js/game.js') }}"></script>
 
 </html>
