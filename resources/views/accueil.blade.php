@@ -11,8 +11,12 @@
         @csrf
         <label for="receveur">Receveur</label>
         <input type="text" name="receveur" id="receveur">
+        <label for="couleur_receveur">Couleur receveur</label>
+        <input type="color" name="couleur_receveur" id="couleur_receveur">
         <label for="visiteur">Visiteur</label>
         <input type="text" name="visiteur" id="visiteur">
+        <label for="couleur_visiteur">Couleur visiteur</label>
+        <input type="color" name="couleur_visiteur" id="couleur_visiteur">
         <label for="duree">Durée mi-temps</label>      
         <input type="number" name="duree" id="duree" min="25" max="45" value="25">
         <label for="arbitre_central">Arbitre central</label>
