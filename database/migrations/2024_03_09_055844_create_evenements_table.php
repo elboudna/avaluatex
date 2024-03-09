@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('evenement');
             $table->string('sanction')->nullable();
             $table->text('commentaires')->nullable();
+            $table->string('icone')->default('1');
             $table->unsignedBigInteger('game_id');
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
             $table->timestamps();
