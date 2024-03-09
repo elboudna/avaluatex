@@ -18,7 +18,7 @@
         <label for="couleur_visiteur">Couleur visiteur</label>
         <input type="color" name="couleur_visiteur" id="couleur_visiteur">
         <label for="duree">Durée mi-temps</label>      
-        <input type="number" name="duree" id="duree" min="25" max="45" value="25">
+        <input type="number" name="duree" id="duree" min="25" max="45" value="45">
         <label for="arbitre_central">Arbitre central</label>
         <input type="text" name="AC" id="arbitre_central">
         <label for="assistant_1">Assistant 1</label>
