@@ -8,6 +8,11 @@
 </head>
 
 <body>
+    <!--  if no game show it -->
+    @if(count($games) == 0)
+    <h1>Aucun match</h1>
+    <a href="/">ajouter un match</a>
+    @endif
     @foreach($games as $game)
     <div>
         <h2>{{ $game->receveur }} - {{ $game->visiteur }}</h2>
