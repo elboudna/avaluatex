@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Game;
 use App\Models\Evenement;
+use App\Models\ImageEvenement;
 
 class GameController extends Controller
 {
@@ -32,9 +33,11 @@ class GameController extends Controller
             'AA1' => 'nullable|string',
             'AA2' => 'nullable|string',
             'A4' => 'nullable|string',
+            
         ]);
 
         $validatedData['date'] = date('Y-m-d');
+        $validatedData['timeline'] = 'ini';
 
         // Création d'un nouveau game
         Game::create($validatedData);
@@ -47,7 +50,11 @@ class GameController extends Controller
     {
         $game = Game::find($request->id);
         $evenements = Evenement::where('game_id', $request->id)->get();
-        return view('game', compact('game', 'evenements'));
+
+        //get all the ImageEvenement where game_id = $request->id
+        $images = ImageEvenement::where('game_id', $request->id)->get();
+
+        return view('game', compact('game', 'evenements', 'images'));
     }
     
 
@@ -56,6 +63,7 @@ class GameController extends Controller
         $game = Game::find($request->id);
         $date = date('Y-m-d H:i:s');
         $game->debut_chrono = $date;
+        $game->timeline = '1';
         $game->save();
         // revenir a la page du match
         return redirect('/game/go?id='.$request->id);
@@ -66,6 +74,32 @@ class GameController extends Controller
         $game = Game::find($request->id);
         $date = date('Y-m-d H:i:s');
         $game->mitemps_chrono = $date;
+
+        // but_receveur_mi_temps and but_visiteur_mi_temps
+        $game->but_receveur_mi_temps = $game->but_receveur;
+        $game->but_visiteur_mi_temps = $game->but_visiteur;
+
+        $game->timeline = '2';
+
+        $game->save();
+        // revenir a la page du match
+        return redirect('/game/go?id='.$request->id);
+    }
+
+    public function pause(Request $request)
+    {
+        $game = Game::find($request->id);
+        $game->timeline = '0';
+        $game->save();
+        // revenir a la page du match
+        return redirect('/game/go?id='.$request->id);
+    }
+
+    // fin du match
+    public function fin(Request $request)
+    {
+        $game = Game::find($request->id);
+        $game->timeline = 'fin';
         $game->save();
         // revenir a la page du match
         return redirect('/game/go?id='.$request->id);
