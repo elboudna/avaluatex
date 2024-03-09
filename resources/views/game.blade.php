@@ -8,11 +8,6 @@
     <title>Document</title>
 </head>
 
-<style>
-
-
-</style>
-
 <body>
 
     <table>
@@ -33,6 +28,7 @@
     <div id="score-chrono">
         <p id="debut_chrono" style="display: none;">{{ $game->debut_chrono }}</p>
         <p id="mitemps_chrono" style="display: none;">{{ $game->mitemps_chrono }}</p>
+        <p id="timeline" style="display: none;">{{ $game->timeline }}</p>
 
         <!-- using game->receveur.. -->
         <div id="score">
@@ -61,7 +57,13 @@
         <form action="{{ route('game.commencer')}}" method="POST">
             @csrf
             <input type="hidden" name="id" value="{{ $game->id }}">
-            <button type="submit">Coup d'envoi</button>
+            <button id="btn-pm" type="submit">Coup d'envoi</button>
+        </form>
+
+        <form action="{{ route('game.pause')}}" method="POST">
+            @csrf
+            <input type="hidden" name="id" value="{{ $game->id }}">
+            <button id="btn-pause" type="submit">Pause</button>
         </form>
         
         <!-- form pour commencer deuxieme mi-temps -->
@@ -69,7 +71,13 @@
             @csrf
             <input type="hidden" name="id" value="{{ $game->id }}">
             <input type="hidden" id="duree_mitemps" name="duree" value="{{ $game->duree }}">
-            <button type="submit">Mi-temps</button>
+            <button id="btn-sm" type="submit">Coup d'envoi 2eme MT</button>
+        </form>
+
+        <form action="{{ route('game.fin')}}" method="POST">
+            @csrf
+            <input type="hidden" name="id" value="{{ $game->id }}">
+            <button id="btn-fin" type="submit">Fin</button>
         </form>
         
     </div>
@@ -133,19 +141,22 @@
 
             <table>
                 <tr>
-                    <th>Minute</th>
-                    <th>Arbitre</th>
+                    <th>Num</th>
+                    <th>Min</th>
+                    <th>Ref</th>
                     <th>Point</th>
-                    <th>Evenement</th>
-                    <th>Equipe</th>
+                    <th>Event</th>
+                    <th>Team</th>
                     <th>Joueur</th>
-                    <th>Sanction</th>
+                    <th>Card</th>
                     <th>Commentaire</th>
                     <th>icone</th>
                     <th>Add</th>
                 </tr>
                 @foreach($evenements as $evenement)
                 <tr>
+                    <!-- increment the numero of the table for each element foing from 1, 2, 3 ... -->
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $evenement->minute }}</td>
                     <td>{{ $evenement->arbitre }}</td>
                     <td>{{ $evenement->point }}</td>
@@ -169,21 +180,30 @@
                             <img src="{{ asset('icone/cr.png') }}" alt="Carton rouge">
                             @else
                             <!-- Default icon or placeholder -->
-                            <img src="{{ asset('icons/default.png') }}" alt="Default">
+                            N/A
                             @endif
                         @else
                         N/A
                         @endif
                     </td>
                     <td>
-                        <!-- form to add the icon to imgaEvenement database -->
+                        <!-- if  icon =  N/A do not show the form-->
+                        @if($evenement->icone == 0)
+                        <p>N/A</p>
+                        @else
                         <form action="{{ route('imageEvenement.store')}}" method="POST">
                             @csrf
-                            <input type="hidden" name="id" value="{{ $evenement->id }}">
+                            <input type="hidden" name="evenement_id" value="{{ $evenement->id }}">
                             <input type="hidden" name="game_id" value="{{ $game->id }}">
-                            <button type="submit">Ajouter icone</button>
+                            <input type="hidden" name="position_x" value="" require>
+                            <input type="hidden" name="position_y" value="" require>
+                            <input type="hidden" name="image_url" value="" require>
+                            <input type="hidden" name="numero_evenement" value="" require>
+                            <!-- if the input name position_x and position_y and image_url are empty do not show the button else show it -->
+
+                            <button class="addIcone" type="submit">add</button>
                         </form>
-                        
+                        @endif
                     </td>
                 </tr>
                 @endforeach
@@ -192,20 +212,15 @@
 
         <div id="map">
             <img id="pitch" src="{{ asset('icone/pitch.jpg') }}" alt="pitch">
-            <div id="icons-container">
-                <div id="icons" style="display:none;">
-                    <img id="cj" src="{{ asset('icone/cj.png') }}" alt="cj">
-                    <img id="cr" src="{{ asset('icone/cr.png') }}" alt="cr">
-                    <img id="hj" src="{{ asset('icone/hj.png') }}" alt="hors-jeu">
-                    <img id="p" src="{{ asset('icone/p.png') }}" alt="position">
-                    <img id="f" src="{{ asset('icone/f.png') }}" alt="faute">
-                </div>
-            </div>
         </div>
         
 
     </section>
 </body>
+
+@foreach ($images as $image)
+    <img class="newIcon" src="{{ ($image->image_url) }}" alt="{{ $image->numero_evenement }}" title="{{ $image->numero_evenement }}" style="position: absolute; width: 25px; z-index: 1000; top: {{ $image->position_y }}px; left: {{ $image->position_x }}px;">
+@endforeach
 
 <script src = "{{ asset('js/game.js') }}"></script>
 
