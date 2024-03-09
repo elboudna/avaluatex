@@ -25,6 +25,7 @@ class Game extends Model
         'A4',
         'date',
         'debut_chrono',
-        'mitemps_chrono'
+        'mitemps_chrono',
+        'timeline',
     ];
 }
