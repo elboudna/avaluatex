@@ -31,6 +31,7 @@ return new class extends Migration
             $table->date('date');
             $table->dateTime('debut_chrono')->nullable();
             $table->dateTime('mitemps_chrono')->nullable();
+            $table->string('timeline')->nullable();
             $table->timestamps();
         });
         
