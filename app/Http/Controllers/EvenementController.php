@@ -25,6 +25,8 @@ class EvenementController extends Controller
             'game_id' => 'required|numeric',
         ]);
 
+        $validatedData['icone'] = '1';
+
 
         // Création d'un nouveau evenement
         Evenement::create($validatedData);
