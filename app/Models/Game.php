@@ -12,10 +12,12 @@ class Game extends Model
     protected $fillable = [
         'receveur',
         'but_receveur',
+        'but_receveur_mi_temps',
+        'couleur_receveur',
         'visiteur',
         'but_visiteur',
-        'but_receveur_mi_temps',
         'but_visiteur_mi_temps',
+        'couleur_visiteur',
         'duree',
         'AC',
         'AA1',
@@ -23,5 +25,6 @@ class Game extends Model
         'A4',
         'date',
         'debut_chrono',
+        'mitemps_chrono'
     ];
 }
