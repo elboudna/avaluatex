@@ -19,5 +19,6 @@ class Evenement extends Model
         'equipe',
         'sanction',
         'commentaires',
+        'icone'
     ];
 }
