@@ -64,6 +64,11 @@ tr:nth-child(even) {
     color: white;
 }
 
+#chrono{
+    width: 100%;
+    text-align: center;
+}
+
 #score-chrono h2{
     margin: 0;
     padding: 0;
@@ -73,15 +78,15 @@ tr:nth-child(even) {
 
 #event-map{
     display: flex;
-    gap: 5%;
+    gap: 2%;
 }
 
 #events{
-    width: 65%;
+    width: 64%;
 }
 
 #map{
-    width: 30%;
+    width: 34%;
 }
 
 
@@ -106,7 +111,29 @@ tr:nth-child(even) {
     margin: 10px 0;
 }
 
+#flex-btn button{
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 5px;;
+    cursor: pointer;
+}
+
+#flex-btn button:first-child{
+    background-color: #004cff;
+    color: white;
+}
+
+/* #flex-btn button second */
+#flex-btn form button:first-of-type{
+    background-color: solid rgb(0, 151, 25);
+}
+
+#flex-btn form button:last-of-type{
+    background-color: solid rgb(255, 0, 0);
+}
+
 .newIcon{
     cursor: pointer;
+    width: 30px;
 }
 

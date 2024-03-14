@@ -100,17 +100,17 @@
 
                 <label for="point">Point</label>
                 <select name="point" id="point">
+                    <option value="Amé">Amé</option>
                     <option value="P">Pos</option>
-                    <option value="N">Nég</option>
                 </select>
 
                 <label for="evenement">Evenement</label>
                 <select name="evenement" id="evenement">
                     <option value="faute">Faute</option>
+                    <option value="penalty">Penalty</option>
                     <option value="hors_jeu">Hors jeu</option>
                     <option value="positionnement">Positionnement</option>
-                    <option value="penalty">Penalty</option>
-                    <option value="autre">Autre</option>
+                    <option value="TE">Trav Equ</option>
                 </select>
 
                 <label for="equipe">Equipe</label>
@@ -149,8 +149,8 @@
                     <th>Team</th>
                     <th>Joueur</th>
                     <th>Card</th>
-                    <th>Commentaire</th>
-                    <th>icone</th>
+                    <th>Comment</th>
+                    <th>icon</th>
                     <th>Add</th>
                 </tr>
                 @foreach($evenements as $evenement)
@@ -219,7 +219,7 @@
 </body>
 
 @foreach ($images as $image)
-    <img class="newIcon" src="{{ ($image->image_url) }}" alt="{{ $image->numero_evenement }}" title="{{ $image->numero_evenement }}" style="position: absolute; width: 25px; z-index: 1000; top: {{ $image->position_y }}px; left: {{ $image->position_x }}px;">
+    <img class="newIcon" src="{{ ($image->image_url) }}" alt="{{ $image->numero_evenement }}" title="{{ $image->numero_evenement }}" style="position: absolute; z-index: 1000; top: {{ $image->position_y }}px; left: {{ $image->position_x }}px;">
 @endforeach
 
 <script src = "{{ asset('js/game.js') }}"></script>

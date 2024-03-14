@@ -171,7 +171,6 @@ window.onload = function () {
 
             // Set position of the new icon
             newIcon.style.position = 'absolute';
-            newIcon.style.width = '25px';
             newIcon.style.zIndex = '1000';
             newIcon.style.left = mouseX + 'px'; // Use mouseX from the outer scope
             newIcon.style.top = mouseY + 'px'; // Use mouseY from the outer scope
